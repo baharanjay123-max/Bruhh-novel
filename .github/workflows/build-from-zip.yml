@@ -1,0 +1,43 @@
+name: Build BRUHH NOVEL APK
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'BRUHH_NOVEL_ANDROID_PROJECT.zip'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Extract project
+        run: unzip -q BRUHH_NOVEL_ANDROID_PROJECT.zip -d extracted
+
+      - name: Build APK
+        run: |
+          cd extracted
+          gradle assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: BRUHH-NOVEL-APK
+          path: extracted/app/build/outputs/apk/debug/app-debug.apk
