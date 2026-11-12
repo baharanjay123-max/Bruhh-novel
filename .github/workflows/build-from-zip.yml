@@ -25,9 +25,6 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Extract project
         run: unzip -q BRUHH_NOVEL_ANDROID_PROJECT.zip -d extracted
 
